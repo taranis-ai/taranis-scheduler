@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheduled Jobs</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}">
+    <script src="{{ url_for('static', filename='js/htmx.min.js') }}"></script>
+</head>
+<body class="bg-gray-100 p-8">
+
+    <!-- Show warning if running in DEBUG mode -->
+    {% if debug %}
+    <div class="bg-yellow-500 text-white p-4 rounded-lg mb-4">
+        <strong>Warning:</strong> The application is running in DEBUG mode.
+    </div>
+    {% endif %}
+
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-bold mb-4">Scheduled Jobs</h1>
+
+        <!-- Conditionally show the add job form only if not in production -->
+        {% if debug %}
+        <form hx-post="/jobs" hx-target="#jobs-body" hx-swap="innerHTML" class="mb-4">
+            <input type="text" name="name" placeholder="Job Name" class="border p-2 mr-2" required>
+            <input type="number" name="interval" placeholder="Interval (seconds)" class="border p-2 mr-2" required>
+            <button type="submit" class="bg-blue-500 text-white p-2 rounded">Add Job</button>
+        </form>
+        {% endif %}
+
+        <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+            <thead>
+                <tr>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase">Job ID</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase">Name</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase">Args</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase">Next Run Time</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="jobs-body">
+                {% include "jobs_partial.html" %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

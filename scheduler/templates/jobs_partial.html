@@ -1,0 +1,15 @@
+{% for job in jobs %}
+<tr hx-get="/jobs/{{ job.id }}" hx-target="#details-{{ job.id }}" hx-swap="innerHTML" data-expanded="false" onclick="toggleDetails('{{ job.id }}')" id="job-row-{{ job.id }}">
+    <td class="px-6 py-4 border-b border-gray-300 text-sm">{{ job.id }}</td>
+    <td class="px-6 py-4 border-b border-gray-300 text-sm">{{ job.name }}</td>
+    <td class="px-6 py-4 border-b border-gray-300 text-sm">{{ job.args }}</td>
+    <td class="px-6 py-4 border-b border-gray-300 text-sm">{{ job.next_run_time }}</td>
+    <td class="px-6 py-4 border-b border-gray-300 text-sm">
+        <!-- Conditionally show the delete button only in debug mode -->
+        {% if debug %}
+        <button hx-delete="/jobs?job_id={{ job.id }}" hx-target="#jobs-body" hx-swap="innerHTML" class="bg-red-500 text-white p-2 rounded">Delete</button>
+        {% endif %}
+    </td>
+</tr>
+<tr id="details-{{ job.id }}" class="hidden transition-all duration-300 ease-in-out"></tr>
+{% endfor %}
