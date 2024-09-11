@@ -1,9 +1,11 @@
 from flask import Flask
 from scheduler import router, scheduler, auth
+from scheduler.config import Config
+from scheduler.jobs import Jobs
 
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, static_url_path=f"{Config.APPLICATION_ROOT}/static")
     app.config.from_object("scheduler.config.Config")
 
     with app.app_context():
@@ -16,7 +18,5 @@ def init(app: Flask):
     auth.init(app)
     scheduler.Scheduler()
     router.init(app)
-    try:
-        scheduler.Scheduler().add_job(func=print, trigger="interval", seconds=10, id="Test", max_instances=1, args=["Executing job"])
-    except Exception as e:
-        print(e)
+    if app.config.get("DEBUG"):
+        Jobs.schedule_debug_job()

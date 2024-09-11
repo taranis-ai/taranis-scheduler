@@ -7,7 +7,9 @@ from flask_htmx import HTMX
 from scheduler.scheduler import Scheduler
 from scheduler.config import Config
 
-htmx = None
+
+def is_htmx_request() -> bool:
+    return "HX-Request" in request.headers
 
 
 class JobDetails(MethodView):
@@ -47,7 +49,7 @@ class JobList(MethodView):
         end = start + page_size
         paginated_jobs = jobs[start:end]
 
-        if htmx:
+        if is_htmx_request():
             return render_template("jobs_partial.html", jobs=paginated_jobs, debug=Config.DEBUG)
 
         return render_template("index.html", jobs=paginated_jobs, page=page, total_jobs=total_jobs, page_size=page_size, debug=Config.DEBUG)
@@ -80,17 +82,16 @@ class JobList(MethodView):
         Scheduler().remove_job(job_id)
 
         jobs = Scheduler().get_jobs()
-        if htmx:
+        if is_htmx_request():
             return render_template("jobs_partial.html", jobs=jobs, debug=Config.DEBUG)
 
         return jsonify({"status": "success"})
 
 
 def init(app: Flask):
-    global htmx
-    htmx = HTMX(app)
+    HTMX(app)
 
-    jobs_bp = Blueprint("jobs", __name__, url_prefix="/")
+    jobs_bp = Blueprint("jobs", __name__, url_prefix=app.config["APPLICATION_ROOT"])
 
     jobs_bp.add_url_rule("/", view_func=JobList.as_view("jobindex"))
     jobs_bp.add_url_rule("/jobs", view_func=JobList.as_view("joblist"))

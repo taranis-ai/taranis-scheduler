@@ -11,6 +11,7 @@ class Settings(BaseSettings):
         extra = "ignore"
 
     API_KEY: str = "supersecret"
+    APPLICATION_ROOT: str = "/scheduler"
     MODULE_ID: str = "Scheduler"
     DEBUG: bool = False
     SECRET_KEY: str = "supersecret"
@@ -18,6 +19,7 @@ class Settings(BaseSettings):
     JWT_IDENTITY_CLAIM: str = "sub"
     JWT_ACCESS_TOKEN_EXPIRES: int = 14400
     JWT_TOKEN_LOCATION: list = ["headers", "cookies"]
+    JWT_ACCESS_COOKIE_NAME: str = "access_token_cookie"
 
     DB_URL: str = "localhost"
     DB_DATABASE: str = "taranis"

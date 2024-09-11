@@ -14,15 +14,6 @@ This service provides a scheduling system that interacts with a PostgreSQL backe
 
 ## Installation
 
-### Clone the Repository
-
-```bash
-git clone https://github.com/your-username/scheduler-service.git
-cd scheduler-service
-```
-
-### Install Python Dependencies
-
 It's recommended to use a uv to setup an virtual environment.
 
 ```bash

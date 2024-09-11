@@ -8,19 +8,16 @@
     <script src="{{ url_for('static', filename='js/htmx.min.js') }}"></script>
 </head>
 <body class="bg-gray-100 p-8">
-
-    <!-- Show warning if running in DEBUG mode -->
-    {% if debug %}
-    <div class="bg-yellow-500 text-white p-4 rounded-lg mb-4">
-        <strong>Warning:</strong> The application is running in DEBUG mode.
-    </div>
-    {% endif %}
-
     <div class="container mx-auto">
         <h1 class="text-3xl font-bold mb-4">Scheduled Jobs</h1>
 
         <!-- Conditionally show the add job form only if not in production -->
         {% if debug %}
+
+        <div class="bg-yellow-500 text-white p-4 rounded-lg mb-4">
+            <strong>Warning:</strong> The application is running in DEBUG mode.
+        </div>
+
         <form hx-post="/jobs" hx-target="#jobs-body" hx-swap="innerHTML" class="mb-4">
             <input type="text" name="name" placeholder="Job Name" class="border p-2 mr-2" required>
             <input type="number" name="interval" placeholder="Interval (seconds)" class="border p-2 mr-2" required>
