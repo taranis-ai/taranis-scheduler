@@ -16,13 +16,8 @@ requires-python = ">=3.12"
 dependencies = [
     "Flask",
     "flask-htmx",
-    "apscheduler",
-    "Flask-JWT-Extended",
-    "SQLAlchemy",
-    "psycopg2",
     "flask-cors",
     "click",
-    "celery",
     "pydantic-settings",
     "python-dotenv",
     "granian",

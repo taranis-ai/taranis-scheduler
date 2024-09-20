@@ -1,7 +1,6 @@
 from flask import Flask
-from scheduler import router, scheduler, auth
+from scheduler import router
 from scheduler.config import Config
-from scheduler.jobs import Jobs
 
 
 def create_app():
@@ -15,8 +14,4 @@ def create_app():
 
 
 def init(app: Flask):
-    auth.init(app)
-    scheduler.Scheduler()
     router.init(app)
-    if app.config.get("DEBUG"):
-        Jobs.schedule_debug_job()

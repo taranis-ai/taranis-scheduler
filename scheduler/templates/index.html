@@ -6,6 +6,7 @@
     <title>Scheduled Jobs</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}">
     <script src="{{ url_for('static', filename='js/htmx.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </head>
 <body class="bg-gray-100 p-8">
     <div class="container mx-auto">
@@ -18,7 +19,7 @@
             <strong>Warning:</strong> The application is running in DEBUG mode.
         </div>
 
-        <form hx-post="/jobs" hx-target="#jobs-body" hx-swap="innerHTML" class="mb-4">
+        <form hx-post="{{ url_for('jobs.joblist') }}" hx-target="#jobs-body" hx-swap="innerHTML" class="mb-4">
             <input type="text" name="name" placeholder="Job Name" class="border p-2 mr-2" required>
             <input type="number" name="interval" placeholder="Interval (seconds)" class="border p-2 mr-2" required>
             <button type="submit" class="bg-blue-500 text-white p-2 rounded">Add Job</button>
