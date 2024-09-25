@@ -19,7 +19,7 @@ class CoreApi:
     def get_jwt_from_request(self):
         return request.cookies.get(Config.JWT_ACCESS_COOKIE_NAME)
 
-    def check_response(self, response, url):
+    def check_response(self, response: requests.Response, url: str):
         try:
             if response.ok:
                 return response.json()

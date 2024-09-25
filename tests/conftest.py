@@ -25,3 +25,10 @@ def app():
 @pytest.fixture(scope="session")
 def client(app):
     yield app.test_client()
+
+
+@pytest.fixture
+def schedule_get_mock(requests_mock):
+    from scheduler.config import Config
+
+    yield requests_mock.get(f"{Config.TARANIS_CORE_URL}/config/schedule", json={"items": [], "total_count": 0})

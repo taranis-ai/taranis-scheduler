@@ -5,7 +5,6 @@ from flask_htmx import HTMX
 
 from scheduler.core_api import CoreApi
 from scheduler.config import Config
-from scheduler.log import logger
 
 
 def is_htmx_request() -> bool:
@@ -27,9 +26,8 @@ class JobList(MethodView):
         page_size = int(request.args.get("page_size", 10))
 
         result = CoreApi().get_schedule({"page": page, "page_size": page_size, "search": search_term})
-        logger.debug(result)
 
-        if not result:
+        if result is None:
             return "Failed to fetch jobs", 500
 
         if is_htmx_request():

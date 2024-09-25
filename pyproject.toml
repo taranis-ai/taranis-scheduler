@@ -40,7 +40,7 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools_scm]
 
 [project.optional-dependencies]
-dev = ["ruff", "pytest", "pytest-flask", "build", "wheel", "setuptools_scm"]
+dev = ["ruff", "pytest", "pytest-flask", "build", "wheel", "setuptools_scm", "requests-mock"]
 
 [project.urls]
 "Source Code" = "https://github.com/taranis-ai/taranis-scheduler"
