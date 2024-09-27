@@ -2,6 +2,7 @@ import uuid
 from flask import Flask, render_template, Blueprint, request, jsonify
 from flask.views import MethodView
 from flask_htmx import HTMX
+from scheduler.filters import human_readable_trigger
 
 from scheduler.core_api import CoreApi
 from scheduler.config import Config
@@ -14,7 +15,7 @@ def is_htmx_request() -> bool:
 class JobDetails(MethodView):
     def get(self, job_id: str):
         if job := CoreApi().get_schedule_by_id(job_id):
-            return render_template("job_details_partial.html", job=job)
+            return render_template("job_details_partial.html", job=job, debug=Config.DEBUG)
 
         return "Job not found", 404
 
@@ -71,6 +72,7 @@ class JobList(MethodView):
 
 def init(app: Flask):
     HTMX(app)
+    app.jinja_env.filters["human_readable"] = human_readable_trigger
 
     jobs_bp = Blueprint("jobs", __name__, url_prefix=app.config["APPLICATION_ROOT"])
 
