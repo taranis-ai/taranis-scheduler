@@ -46,7 +46,11 @@ class CoreApi:
         url = f"{self.api_url}{url}"
         if params:
             url += f"?{urlencode(params)}"
-        response = requests.get(url=url, headers=self.headers, verify=self.verify, timeout=self.timeout)
+        try:
+            response = requests.get(url=url, headers=self.headers, verify=self.verify, timeout=self.timeout)
+        except Exception as e:
+            logger.error(f"Call to {url} failed {e}")
+            return None
         return self.check_response(response, url)
 
     def api_delete(self, url):

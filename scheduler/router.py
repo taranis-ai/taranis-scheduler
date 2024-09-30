@@ -29,7 +29,7 @@ class JobList(MethodView):
         result = CoreApi().get_schedule({"page": page, "page_size": page_size, "search": search_term})
 
         if result is None:
-            return "Failed to fetch jobs", 500
+            return f"Failed to fetch jobs from: {Config.TARANIS_CORE_URL}", 500
 
         if is_htmx_request():
             return render_template("jobs_partial.html", jobs=result["items"], debug=Config.DEBUG)
