@@ -72,6 +72,7 @@ class JobList(MethodView):
 
 def init(app: Flask):
     HTMX(app)
+    app.url_map.strict_slashes = False
     app.jinja_env.filters["human_readable"] = human_readable_trigger
 
     jobs_bp = Blueprint("jobs", __name__, url_prefix=app.config["APPLICATION_ROOT"])
